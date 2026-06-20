@@ -21,6 +21,6 @@ text_color = "#c0caf5"
 # Layout
 show_tags = true
 show_reading_time = true
-
+trailing_slash_links = true
 
 
