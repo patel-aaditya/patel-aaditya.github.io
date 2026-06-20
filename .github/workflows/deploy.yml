@@ -40,7 +40,7 @@ jobs:
         with:
           tool: zola@0.19.2
 
-      - run: zola build --base-url https://patel-aaditya.github.io/blog
+      - run: zola build --base-url https://patel-aaditya.github.io/blog/
         working-directory: blog
 
       - name: Assemble
