@@ -1,0 +1,58 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: portfolio/package-lock.json
+
+      - run: npm ci
+        working-directory: portfolio
+
+      - run: npm run build
+        working-directory: portfolio
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: zola@0.19.2
+
+      - run: zola build --base-url https://patel-aaditya.github.io/blog
+        working-directory: blog
+
+      - name: Assemble
+        run: |
+          mkdir -p dist
+          cp -r portfolio/dist/. dist/
+          mkdir -p dist/blog
+          cp -r blog/public/. dist/blog/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
