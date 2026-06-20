@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+  ::selection { background: rgba(255,255,255,0.2); }
+}
+
+/* ── Custom cursor ── */
+#cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: difference;
+}
+#cursor.big {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* ── The tunnel stage ── */
+#stage {
+  position: fixed;
+  inset: 0;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+}
+
+/* ── The world that moves along Z ── */
+#world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ── Each Z-plane ── */
+.z-plane {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+/* ── Glass card ── */
+.gcard {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 3px;
+}
+
+/* ── Typewriter cursor ── */
+.tcursor { animation: tblink 0.9s step-end infinite; }
+@keyframes tblink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── Nav ── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 2.4rem;
+  pointer-events: none;
+}
+#nav button { pointer-events: all; }
+
+/* ── Side labels ── */
+.side-label {
+  position: fixed;
+  top: 50%;
+  transform-origin: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  white-space: nowrap;
+  z-index: 500;
+  pointer-events: none;
+  transition: color 0.4s;
+}
+.side-label.left  { left:  1.6rem; transform: translateY(-50%) rotate(-90deg); }
+.side-label.right { right: 1.6rem; transform: translateY(-50%) rotate(90deg); }
+
+/* ── Progress bar ── */
+#progress {
+  position: fixed;
+  left: 0; bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: rgba(255,255,255,0.4);
+  z-index: 500;
+  transition: width 0.1s linear;
+}
+
+::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

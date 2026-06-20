@@ -1,0 +1,26 @@
+theme = "duckquill"
+title = "Aaditya’s Blog"
+base_url = "https://patel-aaditya.github.io/blog"
+
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+
+[extra]
+home = "blog"
+
+# REQUIRED Duckquill theme settings
+accent_color = "#7aa2f7"
+background_color = "#0f111a"
+text_color = "#c0caf5"
+
+# Layout
+show_tags = true
+show_reading_time = true
+
+
+
