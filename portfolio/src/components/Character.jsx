@@ -11,7 +11,8 @@ const NECK = '254,430 354,414 362,526 248,534'
 const FACE = '196,236 202,326 230,396 296,454 350,442 396,396 416,322 410,240'
 const EAR = '192,296 166,288 158,330 184,348'
 const HAIR =
-  'M196 304 C166 252 172 190 212 150 C252 108 332 82 402 110 C444 128 466 172 452 216 C448 238 442 254 432 266 C412 244 382 234 350 246 C320 258 290 264 262 254 C240 248 222 264 212 292 Z'
+  'M198 300 C184 262 190 214 214 182 C244 148 300 130 356 134 C412 138 446 176 446 224 C446 242 440 256 432 266 C414 250 388 244 362 252 C336 262 312 262 286 252 C262 244 238 256 224 282 Z'
+const LOCKS = ['252,156 266,128 298,144', '304,140 332,114 356,138', '358,140 390,122 408,156']
 
 export default function Character() {
   return (
@@ -27,6 +28,9 @@ export default function Character() {
             <polygon points={FACE} />
             <polygon points={EAR} />
             <path d={HAIR} />
+            {LOCKS.map((l) => (
+              <polygon key={l} points={l} />
+            ))}
           </g>
         </g>
       </defs>
@@ -110,16 +114,19 @@ export default function Character() {
         <path d="M376 372 Q386 398 362 410" fill="none" stroke={INK} strokeWidth="4" strokeLinecap="round" />
         <polygon points="296,452 348,442 334,464" fill={INK} />
 
-        {/* hair: swept back and up, side fringe falling over the brow, rim light and strand lines */}
+        {/* hair: short and textured, a few soft locks on top, side fringe over the brow */}
         <path d={HAIR} fill={INK} />
-        <polygon points="212,292 204,326 226,300" fill={INK} />
-        <polygon points="350,246 372,282 384,248" fill={INK} />
-        <polygon points="262,254 280,290 296,258" fill={INK} />
-        <path d="M184 220 C196 176 236 138 292 120" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
-        <path d="M322 100 C372 94 420 116 440 160" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
-        <path d="M236 176 C270 150 320 140 364 150" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" />
-        <path d="M222 214 C262 184 330 174 394 190" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" />
-        <path d="M300 226 C340 212 384 214 418 228" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" />
+        {LOCKS.map((l) => (
+          <polygon key={l} points={l} fill={INK} />
+        ))}
+        <polygon points="224,282 214,316 238,290" fill={INK} />
+        <polygon points="362,252 380,284 392,254" fill={INK} />
+        <polygon points="286,252 300,284 314,256" fill={INK} />
+        <path d="M204 236 C214 198 250 164 300 150" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M330 140 C380 138 424 160 436 204" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" />
+        <path d="M274 140 C280 134 286 132 292 132" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+        <path d="M244 196 C286 172 336 166 384 176" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M236 226 C282 204 344 200 408 214" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" />
       </g>
     </svg>
   )
