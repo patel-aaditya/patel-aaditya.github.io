@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SCREENS } from './content/screens.js'
-import { play } from './lib/sound.js'
+import { play, unlock } from './lib/sound.js'
 import Hub from './components/Hub.jsx'
 import About from './components/About.jsx'
 import Projects from './components/Projects.jsx'
@@ -36,7 +36,22 @@ export default function App() {
   const [route, setRoute] = useState(parseHash)
   const [sel, setSel] = useState(-1) // -1: nothing picked
   const [ghost, setGhost] = useState(null) // the view we just left, kept briefly for the burst
-  const [soundOn, setSoundOn] = useState(false)
+  const [soundOn, setSoundOn] = useState(() => {
+    try {
+      return localStorage.getItem('sound') !== 'off'
+    } catch (e) {
+      return true
+    }
+  })
+  useEffect(() => {
+    const go = () => unlock()
+    window.addEventListener('pointerdown', go, { once: true })
+    window.addEventListener('keydown', go, { once: true })
+    return () => {
+      window.removeEventListener('pointerdown', go)
+      window.removeEventListener('keydown', go)
+    }
+  }, [])
   const timers = useRef([])
   const routeRef = useRef(route)
   const ghostId = useRef(0)
@@ -154,6 +169,11 @@ export default function App() {
         onClick={() => {
           const next = !soundOn
           setSoundOn(next)
+          try {
+            localStorage.setItem('sound', next ? 'on' : 'off')
+          } catch (e) {
+            /* storage is optional */
+          }
           if (next) play('pick')
         }}
       >

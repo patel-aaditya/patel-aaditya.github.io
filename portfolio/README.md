@@ -32,4 +32,4 @@ A game-menu style personal site. React + Vite, plain CSS, no other runtime depen
 
 ## Keyboard
 
-Menu: Up/Down to select, Enter to open, 1 to 5 to jump, Esc to go back. Sound is off until switched on.
+Menu: Up/Down to select, Enter to open, 1 to 5 to jump, Esc to go back. Sound is on by default (browsers unlock audio on your first click or key press); the button in the corner turns it off.
