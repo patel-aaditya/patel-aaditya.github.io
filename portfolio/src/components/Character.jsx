@@ -9,6 +9,7 @@ const HEAD = 'rotate(-6 300 340)'
 const BODY = '14,820 44,640 128,556 215,505 385,495 472,545 548,636 586,820'
 const NECK = '254,430 354,414 362,526 248,534'
 const FACE = '196,236 202,326 230,396 296,454 350,442 396,396 416,322 410,240'
+const COLLARS = ['168,474 194,398 270,456 270,526', '444,466 420,388 350,438 346,522']
 const EAR = '192,296 166,288 158,330 184,348'
 const HAIR =
   'M164 354 C148 292 158 222 196 174 C234 126 300 102 366 110 C428 118 464 164 460 228 C458 264 452 298 442 334 C436 300 424 270 410 254 C386 246 360 254 340 266 C316 262 292 250 270 252 C246 258 226 280 216 312 C208 332 190 350 164 354 Z'
@@ -37,6 +38,9 @@ export default function Character() {
         <g id="ch-sil">
           <polygon points={BODY} />
           <polygon points={NECK} />
+          {COLLARS.map((c) => (
+            <polygon key={c} points={c} />
+          ))}
           <g transform={HEAD}>
             <polygon points={FACE} />
             <polygon points={EAR} />
@@ -63,14 +67,35 @@ export default function Character() {
       <polygon points="384,500 472,550 462,562 380,514" fill="#fff" />
       <polygon points="470,620 520,690 500,760 448,700" fill={BLUE} />
 
-      {/* shirt, tie */}
-      <polygon points="262,512 352,496 300,690" fill={PAPER} />
+      {/* white tee in the open front of a long trench coat */}
+      <polygon points="262,512 352,496 322,760 284,760" fill={PAPER} />
+      <polygon points="262,512 352,496 346,540 268,552" fill={INK} opacity="0.85" />
 
-      {/* collars: pointed ink flaps with a white edge only along the neck line */}
-      <polygon points="176,462 262,512 270,606 214,640 140,556" fill={INK} />
-      <polygon points="426,452 352,498 342,606 396,634 462,548" fill={INK} />
-      <path d="M176 462 L262 512 L270 606" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M426 452 L352 498 L342 606" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* open coat fronts with a white edge, double-breasted flap lines and buttons */}
+      <path d="M262 512 L284 650 L278 770" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M352 498 L340 650 L350 770" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M214 650 L196 812" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+      <path d="M394 646 L414 812" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="240" cy="676" r="7" fill="#fff" />
+      <circle cx="236" cy="720" r="7" fill="#fff" />
+      <circle cx="372" cy="672" r="7" fill="#fff" />
+      <circle cx="376" cy="716" r="7" fill="#fff" />
+
+      {/* belt: two bands, one buckle, a tail hanging loose */}
+      <polygon points="30,738 250,744 246,782 24,776" fill={INK} stroke="#fff" strokeWidth="4" strokeLinejoin="round" />
+      <polygon points="352,744 574,730 580,768 356,782" fill={INK} stroke="#fff" strokeWidth="4" strokeLinejoin="round" />
+      <rect x="226" y="736" width="34" height="50" rx="3" fill="none" stroke="#fff" strokeWidth="6" />
+      <polygon points="258,760 300,768 292,820 262,812" fill={INK} stroke="#fff" strokeWidth="4" strokeLinejoin="round" />
+
+      {/* popped collar: tall flaps standing up around the neck, blue lining, white edge */}
+      <polygon points="168,474 194,398 270,456 270,526" fill={INK} />
+      <polygon points="444,466 420,388 350,438 346,522" fill={INK} />
+      <polygon points="204,424 258,462 262,504 216,476" fill={BLUE} />
+      <polygon points="204,424 258,462 262,504 216,476" fill="url(#ch-dots)" opacity="0.5" />
+      <polygon points="410,414 360,446 354,500 400,470" fill={BLUE} />
+      <polygon points="410,414 360,446 354,500 400,470" fill="url(#ch-dots)" opacity="0.5" />
+      <path d="M168 474 L194 398 L270 456" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M444 466 L420 388 L350 438" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
 
       {/* hard shadow plane across the lower left of the coat, with halftone edge, plus rim lights */}
       <polygon points="14,820 44,660 150,700 230,780 250,820" fill={INK} />
