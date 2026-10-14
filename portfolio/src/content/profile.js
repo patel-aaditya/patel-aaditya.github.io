@@ -26,6 +26,6 @@ export const profile = {
   contact: [
     { label: 'GitHub', text: 'github.com/patel-aaditya', href: 'https://github.com/patel-aaditya' },
     { label: 'Hugging Face', text: 'huggingface.co/patelaaditya', href: 'https://huggingface.co/patelaaditya' },
-    { label: 'Email', text: '', href: '' },
+    { label: 'Email', text: 'patel.aads@gmail.com', href: 'mailto:patel.aads@gmail.com' },
   ],
 }
