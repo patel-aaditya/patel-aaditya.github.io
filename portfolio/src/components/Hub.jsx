@@ -90,11 +90,6 @@ export default function Hub({ sel, setSel, open, sfx }) {
                   onBlur={() => setSel(-1)}
                   onClick={() => open(s.id)}
                 >
-                  {on && (
-                    <svg className="pick" viewBox="0 0 40 30" aria-hidden="true" focusable="false">
-                      <polygon points="3,9 24,9 24,2 38,15 24,28 24,21 3,21" fill="#fff" stroke="#050505" strokeWidth="3" strokeLinejoin="round" />
-                    </svg>
-                  )}
                   <Loud text={s.label} seed={on ? 1 : 2 + i} intensity={on ? 1.15 : 0.8} tiles={on ? SEL_TILES : OUT_TILES} />
                 </button>
               </li>
