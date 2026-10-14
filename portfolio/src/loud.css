@@ -1,0 +1,111 @@
+/* "Loud" cut-out lettering (see components/Loud.jsx). Each letter picks one of five faces (.f-0 to .f-4)
+   and one of five tiles (.lt-0 to .lt-4), plus its own tilt, size and lift through custom properties. */
+.loud {
+  --t-ink: #050816;
+  --t-paper: #ffffff;
+  --t-accent: #59dcff;
+  --t-hot: #ff2f6d;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.02em 0.05em;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.lt {
+  display: inline-block;
+  padding: 0.04em 0.09em 0.02em;
+  line-height: 1.02;
+  transform: translateY(var(--dy, 0)) rotate(var(--rot, 0deg)) scale(var(--sc, 1));
+}
+.lt-gap {
+  display: inline-block;
+  width: 0.35em;
+}
+.lt-0 {
+  background: var(--t-paper);
+  color: var(--t-ink);
+  box-shadow: 0.06em 0.06em 0 var(--t-ink);
+}
+.lt-1 {
+  background: var(--t-ink);
+  color: var(--t-paper);
+  box-shadow: 0.06em 0.06em 0 var(--t-accent);
+}
+.lt-2 {
+  background: var(--t-accent);
+  color: var(--t-ink);
+  box-shadow: 0.06em 0.06em 0 var(--t-ink);
+}
+.lt-3 {
+  background: transparent;
+  color: var(--t-paper);
+  -webkit-text-stroke: 0.05em var(--t-ink);
+  paint-order: stroke fill;
+  text-shadow: 0.06em 0.06em 0 var(--t-ink);
+}
+.lt-4 {
+  background: var(--t-hot);
+  color: #fff;
+  box-shadow: 0.06em 0.06em 0 var(--t-ink);
+}
+.f-0 {
+  font-family: 'Anton', Impact, sans-serif;
+}
+.f-1 {
+  font-family: 'Bowlby One', Impact, sans-serif;
+  font-size: 0.82em;
+}
+.f-2 {
+  font-family: 'Bungee', Impact, sans-serif;
+  font-size: 0.86em;
+}
+.f-3 {
+  font-family: 'Dela Gothic One', Impact, sans-serif;
+  font-size: 0.82em;
+}
+.f-4 {
+  font-family: 'Rammetto One', Impact, sans-serif;
+  font-size: 0.82em;
+}
+.f-5 {
+  font-family: 'Alfa Slab One', Georgia, serif;
+  font-size: 0.8em;
+}
+.f-6 {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 1.08em;
+  letter-spacing: 0.02em;
+}
+
+/* On the main menu the pink accent becomes blue: the stage is one blue plus black and white. */
+.hub .loud {
+  --t-hot: #0a22bf;
+  --t-accent: #1138ff;
+}
+.hub .lt-2 {
+  color: #fff;
+}
+
+/* Titles and names that use it carry their own tiles, so drop the old block behind them. */
+.screen-title {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  transform: rotate(-2deg);
+}
+.mission-detail h3 .loud {
+  --t-ink: #050816;
+}

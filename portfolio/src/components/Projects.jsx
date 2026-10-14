@@ -1,33 +1,58 @@
-import TunnelSection from "./TunnelSection";
-import ProjectCard from "./ProjectCard";
-import { projects } from "../data";
+import { useEffect, useState } from 'react'
+import Shell from './Shell.jsx'
+import Loud from './Loud.jsx'
+import { projects } from '../content/projects.js'
 
-export default function Projects() {
+export default function Projects({ onBack, sfx }) {
+  const [i, setI] = useState(0)
+  const p = projects[i]
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+      e.preventDefault()
+      sfx('move')
+      setI((n) => (n + (e.key === 'ArrowDown' ? 1 : projects.length - 1)) % projects.length)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [sfx])
+
   return (
-    <TunnelSection
-      id="projects"
-      bg="linear-gradient(180deg, #0f0a20 0%, #0d1f14 40%, #0a0f1a 100%)"
-      className="py-32 px-8"
-    >
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-14">
-          <p className="font-body text-xs tracking-[0.2em] uppercase text-sage/60 mb-3">
-            Selected work
-          </p>
-          <h2
-            className="font-display font-bold text-ash leading-tight"
-            style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}
-          >
-            Things I've built
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {projects.map((p) => (
-            <ProjectCard key={p.id} {...p} />
+    <Shell theme="projects" title="Projects" sub="Missions" onBack={onBack}>
+      <div className="split">
+        <ul className="mission-list">
+          {projects.map((m, n) => (
+            <li key={m.id}>
+              <button
+                type="button"
+                className="mission"
+                aria-current={n === i ? 'true' : undefined}
+                onClick={() => {
+                  setI(n)
+                  sfx('pick')
+                }}
+              >
+                <span className="m-name">{m.name}</span>
+                <span className={`m-status ${m.status === 'In progress' ? 'wip' : ''}`}>{m.status}</span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
+
+        <article className="mission-detail" aria-live="polite">
+          <p className={`stamp-sm ${p.status === 'In progress' ? 'wip' : ''}`}>{p.status}</p>
+          <h3>
+            <Loud key={p.id} text={p.name} seed={5} intensity={0.7} />
+          </h3>
+          <p className="m-blurb">{p.blurb}</p>
+          <ul className="chips" aria-label="Stack">
+            {p.stack.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        </article>
       </div>
-    </TunnelSection>
-  );
+    </Shell>
+  )
 }

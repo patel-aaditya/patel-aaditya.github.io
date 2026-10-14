@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Portfolio deploys to ROOT of patel-aaditya.github.io
-// so base is just '/'
-export default defineConfig({
+// "preview" mode builds a single self-contained bundle (no public/ files,
+// everything relative) that scripts/inline.mjs folds into one HTML page.
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: '/',
-})
+  base: mode === 'preview' ? './' : '/',
+  publicDir: mode === 'preview' ? false : 'public',
+  build: {
+    assetsInlineLimit: mode === 'preview' ? 100000000 : 4096,
+  },
+}))

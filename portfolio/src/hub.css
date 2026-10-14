@@ -1,0 +1,438 @@
+/* Main menu. Layout: a loud, moving blue, black and white stage. The character bleeds off the left edge, a black
+   shout-burst comes out of his mouth, and the menu words are thrown out of it on a curve in 3D.
+   Where the mouth is (--ox, --oy) is set on .app in styles.css, from the character's size and position. */
+.hub {
+  --ink: #050505;
+  --paper: #f5f5f0;
+  --blue: #1138ff;
+  --blue-deep: #0a22bf;
+  --cond: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--paper);
+  background: var(--blue);
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ----- hard black corners with a white sliver beside each ----- */
+.edge {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.edge-tl {
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 44%;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.edge-tl-w {
+  left: 0;
+  top: 0;
+  width: 56%;
+  height: 50%;
+  background: var(--paper);
+  clip-path: polygon(93% 0, 98% 0, 0 98%, 0 91%);
+}
+.edge-br {
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  height: 40%;
+  background: var(--ink);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.edge-br-w {
+  right: 0;
+  bottom: 0;
+  width: 52%;
+  height: 46%;
+  background: var(--paper);
+  clip-path: polygon(100% 2%, 100% 9%, 7% 100%, 2% 100%);
+}
+
+/* ----- shout-burst and character ----- */
+.burst {
+  position: absolute;
+  left: var(--ox);
+  top: var(--oy);
+  z-index: 2;
+  width: 150vh;
+  height: 150vh;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  animation: burst-pop 0.32s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+}
+.burst .spin {
+  transform-origin: 100px 100px;
+  animation: spin 70s linear infinite;
+}
+.b-ink {
+  fill: var(--ink);
+}
+.b-edge {
+  fill: var(--paper);
+  transform: scale(1.04);
+  transform-origin: 100px 100px;
+}
+@keyframes burst-pop {
+  from {
+    transform: translate(-50%, -50%) rotate(-16deg) scale(0.55);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.character-wrap {
+  position: absolute;
+  left: var(--cl);
+  top: var(--ct);
+  width: var(--cw);
+  height: var(--ch);
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(1.2vh 1.2vh 0 rgba(2, 8, 70, 0.6));
+}
+.character {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  animation: breathe 6s ease-in-out infinite;
+}
+@keyframes breathe {
+  50% {
+    transform: translateY(-0.8%);
+  }
+}
+
+/* ----- boxes around the edges ----- */
+.idbox {
+  position: absolute;
+  left: clamp(14px, 3vw, 36px);
+  top: clamp(12px, 3vh, 30px);
+  z-index: 6;
+  min-width: 14rem;
+  padding: 8px 16px 6px;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-2deg);
+}
+.idbox h1 {
+  margin: 0;
+  font-family: var(--cond);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.7rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.idbox p {
+  margin: 4px 0 0;
+  padding-top: 3px;
+  border-top: 2px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.party {
+  position: absolute;
+  right: clamp(12px, 2.6vw, 34px);
+  top: clamp(12px, 3vh, 30px);
+  z-index: 6;
+  width: min(15rem, 30vw);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.party li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 14px 6px 8px;
+  background: var(--ink);
+  border: 2px solid #fff;
+  transform: skewX(-10deg);
+}
+.party li > span {
+  display: block;
+  transform: skewX(10deg);
+}
+.pc-icon {
+  flex: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: grid !important;
+  place-items: center;
+  font-family: var(--cond);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: #fff;
+  background: var(--blue);
+}
+.pc-text {
+  min-width: 0;
+}
+.pc-k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0.7;
+}
+.pc-v {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
+.cmd {
+  pointer-events: none;
+  position: absolute;
+  right: clamp(14px, 3vw, 40px);
+  bottom: clamp(12px, 3vh, 30px);
+  z-index: 6;
+  width: min(19rem, 36vw);
+  text-align: right;
+}
+.cmd p {
+  margin: 0;
+}
+.cmd-title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.7rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.cmd-desc {
+  margin-top: 4px !important;
+  padding-top: 6px;
+  border-top: 2px solid #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.cmd-keys {
+  margin-top: 10px !important;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.key {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  color: var(--ink);
+  background: #fff;
+  border-radius: 99px;
+}
+.cmd-keys .key:first-child {
+  margin-left: 0;
+}
+.cmd-touch {
+  display: none;
+  margin-top: 8px !important;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@media (hover: none) {
+  .cmd-keys {
+    display: none;
+  }
+  .cmd-touch {
+    display: block;
+  }
+}
+
+/* ----- the menu: five slots on a curve in 3D. The word you are on pops toward you ----- */
+.hub-nav {
+  position: absolute;
+  left: calc(var(--ox) + 3vh);
+  right: 2vw;
+  top: 54%;
+  height: 0;
+  z-index: 5;
+  perspective: 95vh;
+  perspective-origin: 0% 50%;
+}
+.menu {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+}
+.menu li {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.menu-item {
+  --fs: clamp(2.2rem, 9vh, 5.8rem);
+  --step: 15vh;
+  --bow: 1.4vh;
+  --zs: 7vh;
+  --tx: calc(var(--sq) * var(--bow) + var(--jx) * 1vh);
+  --ty: calc(var(--k) * var(--step) - 0.55em);
+  --tz: calc(var(--abs) * var(--zs) * -1);
+  --rz: calc(-8deg + var(--k) * -2.2deg + var(--jr) * 1deg);
+  --ry: calc(var(--k) * 8deg);
+  --sc: calc(var(--sz) * (0.9 - var(--abs) * 0.02));
+  position: relative;
+  display: block;
+  width: max-content;
+  white-space: nowrap;
+  pointer-events: auto;
+  padding: 0.05em 0.3em 0.05em 0.1em;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--fs);
+  line-height: 1;
+  color: #fff;
+  transform-origin: 0% 50%;
+  transform: translate3d(var(--tx), var(--ty), var(--tz)) rotateZ(var(--rz)) rotateY(var(--ry)) scale(var(--sc));
+  transition: transform 0.18s cubic-bezier(0.2, 0.85, 0.3, 1.12);
+  animation: word-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+.menu-item[aria-current='true'] {
+  --tx: calc(var(--sq) * var(--bow) + 3vh);
+  --tz: 9vh;
+  --rz: calc(-8deg + var(--k) * -2.2deg);
+  --sc: calc(var(--sz) * 1.18);
+}
+@keyframes word-in {
+  from {
+    translate: 14vw 0;
+    opacity: 0;
+  }
+}
+/* a blue slab with a white edge behind the selected word, plus an arrow pointing at it */
+.menu-item[aria-current='true']::before,
+.menu-item[aria-current='true']::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  clip-path: polygon(0 12%, 100% 0, 97% 100%, 3% 88%);
+}
+.menu-item[aria-current='true']::before {
+  inset: -0.14em -0.34em -0.1em -0.42em;
+  background: #fff;
+}
+.menu-item[aria-current='true']::after {
+  inset: -0.08em -0.28em -0.05em -0.36em;
+  background: linear-gradient(95deg, var(--blue-deep), var(--blue));
+}
+.menu-item .loud {
+  flex-wrap: nowrap;
+}
+.pick {
+  position: absolute;
+  left: -0.95em;
+  top: 50%;
+  width: 0.7em;
+  height: 0.52em;
+  margin-top: -0.26em;
+  overflow: visible;
+}
+
+/* ----- phones and short windows ----- */
+@media (max-width: 760px) {
+  .app {
+    --ch: 62vh;
+    --cl: calc(100vw - var(--cw) * 0.8);
+    --ct: 5vh;
+  }
+  .character-wrap {
+    -webkit-mask-image: linear-gradient(#000 78%, transparent 100%);
+    mask-image: linear-gradient(#000 78%, transparent 100%);
+  }
+  .party,
+  .edge-br-w {
+    display: none;
+  }
+  .edge-br {
+    height: 30%;
+  }
+  .idbox {
+    min-width: 0;
+    padding: 6px 12px 5px;
+  }
+  .idbox h1 {
+    font-size: 1.35rem;
+  }
+  .burst {
+    width: 130vh;
+    height: 130vh;
+  }
+  .hub-nav {
+    left: 7vw;
+    right: 4vw;
+    top: 71vh;
+  }
+  .menu-item {
+    --fs: min(7.4vh, 11.5vw);
+    --step: 9.4vh;
+    --bow: 0.8vh;
+    --zs: 3.5vh;
+  }
+  .menu-item[aria-current='true'] {
+    --tx: calc(var(--sq) * var(--bow) + 1.5vh);
+    --tz: 5vh;
+  }
+  .cmd {
+    left: 14px;
+    right: 14px;
+    width: auto;
+    text-align: left;
+  }
+  .cmd-title {
+    display: none;
+  }
+  .cmd-desc {
+    margin-top: 0 !important;
+    font-size: 0.88rem;
+  }
+}
+@media (max-height: 560px) and (min-width: 761px) {
+  .menu-item {
+    --step: 15vh;
+  }
+}

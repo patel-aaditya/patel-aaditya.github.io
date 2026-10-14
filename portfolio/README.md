@@ -1,96 +1,35 @@
-# patel-aaditya.github.io
+# Aaditya Patel, menu-hub portfolio
 
-Personal portfolio + blog. Portfolio at `/`, Zola blog at `/blog/`.
+A game-menu style personal site. React + Vite, plain CSS, no other runtime dependencies.
 
-## Repo structure after migration
+## Run it
 
-```
-patel-aaditya.github.io/
-├── portfolio/          ← this React app (contents of this zip)
-│   ├── src/
-│   ├── package.json
-│   ├── vite.config.js
-│   └── ...
-├── blog/               ← your existing Zola blog (clone from old repo)
-│   ├── content/
-│   ├── config.toml
-│   └── ...
-└── .github/
-    └── workflows/
-        └── deploy.yml  ← builds both, merges, deploys
-```
+    npm install
+    npm run dev        # local dev server
+    npm run build      # production build into dist/
 
-## How to migrate — exact steps
+## Where things live
 
-### 1. Clone your existing blog repo locally
-```bash
-git clone https://github.com/patel-aaditya/patel-aaditya.github.io old-blog
-```
+- `src/content/projects.js` : the project list (Projects screen)
+- `src/content/profile.js`  : bio, facts, contact links (add your email in `contact`)
+- `src/content/journal/*.md`: blog posts. Drop in a new .md file and it appears in the Journal.
+  Front matter uses the same `+++ title / date / tags +++` block as the old Zola posts.
+- `public/pdfs/`            : PDF versions of the older posts
+- `src/components/Status.jsx`: the work-in-progress stats screen
+- `src/components/Character.jsx`: the stand-in character on the main menu. Replace it with your own illustration; the menu's burst and the screen transitions are anchored to his mouth through `--ch`, `--cl`, `--ct` in `src/styles.css`.
+- `src/components/Backdrop.jsx`: the moving blue, black and white background on the main menu (canvas, slow sine-wave ribbons in black, white and blue)
+- `src/hub.css`, `src/loud.css`: main menu styling and the cut-out lettering
+- `src/styles.css`          : all styling; the three moods are the `.theme-*` blocks
 
-### 2. Create a fresh local folder
-```bash
-mkdir patel-aaditya.github.io
-cd patel-aaditya.github.io
-git init
-git branch -M main
-```
+## Replacing the current site
 
-### 3. Add the portfolio
-```bash
-# Unzip the portfolio zip into a folder called 'portfolio'
-unzip portfolio-v2.zip
-mv portfolio-v2 portfolio
-```
+1. In your repo, replace the contents of `portfolio/` with this folder (keep `.gitignore` if you like).
+2. Replace `.github/workflows/deploy.yml` with `repo-files/.github/workflows/deploy.yml`.
+   It builds only the React site, so Zola is no longer part of the deploy.
+3. The old blog URLs (`/blog/`, `/blog/blog/<post>/`, `/blog/<post>/`) are covered by small redirect
+   pages in `public/blog/` that send visitors to the matching Journal entry.
+4. The `blog/` Zola folder at the repo root is no longer built. Keep it as an archive or delete it.
 
-### 4. Add the blog
-```bash
-# Copy your old Zola blog into a folder called 'blog'
-cp -r ../old-blog blog
-# Remove the old git history from the blog copy
-rm -rf blog/.git
-# Remove the old GitHub Actions from the blog copy
-rm -rf blog/.github
-```
+## Keyboard
 
-### 5. Update your blog's config.toml base URL
-Open `blog/config.toml` and change:
-```toml
-# Old:
-base_url = "https://patel-aaditya.github.io"
-# New:
-base_url = "https://patel-aaditya.github.io/blog"
-```
-
-### 6. Push everything
-```bash
-git add .
-git commit -m "feat: portfolio + blog unified"
-git remote add origin https://github.com/patel-aaditya/patel-aaditya.github.io.git
-git push -u origin main --force
-```
-
-### 7. Enable GitHub Pages
-- Go to your repo → **Settings → Pages**
-- Source: **GitHub Actions**
-- Save
-
-That's it. GitHub Actions will build the React portfolio and the Zola blog separately, merge them into one `dist/`, and deploy. Your site will be:
-
-| URL | Content |
-|-----|---------|
-| `patel-aaditya.github.io` | Portfolio (this React app) |
-| `patel-aaditya.github.io/blog` | Your existing Zola blog |
-| `patel-aaditya.github.io/blog/the-empty-podium` | Individual posts |
-
-## Local dev (portfolio only)
-```bash
-cd portfolio
-npm install
-npm run dev
-```
-
-## Updating blog posts
-Edit markdown files in `blog/content/` as you always did. Push to main — auto-deploys.
-
-## Updating portfolio content
-Edit `portfolio/src/App.jsx` — the `PROJECTS` and `BLOG_POSTS` arrays at the top.
+Menu: Up/Down to select, Enter to open, 1 to 5 to jump, Esc to go back. Sound is off until switched on.
