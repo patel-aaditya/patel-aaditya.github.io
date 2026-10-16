@@ -61,19 +61,53 @@ a {
   left: 12px;
   bottom: 10px;
   z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 5px 9px;
+  background: rgba(10, 10, 11, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   font-family: var(--mono);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
-  background: rgba(10, 10, 11, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  padding: 5px 9px;
+}
+.snd-mute {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+.snd-mute[aria-pressed='true'] {
+  color: #1138ff;
+  background: #fff;
+  padding: 2px 5px;
+  margin: -2px 0;
+}
+.snd-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.snd-bar {
+  width: 9px;
+  height: var(--h);
+  padding: 0;
+  border: 0;
+  background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
 }
-.sound[aria-pressed='true'] {
-  background: var(--red);
-  border-color: var(--red);
+.snd-bar[aria-pressed='true'] {
+  background: #fff;
+}
+.sound:has(.snd-mute[aria-pressed='true']) .snd-bar {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* ---------- screen transition ----------

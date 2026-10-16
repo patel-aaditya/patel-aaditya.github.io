@@ -17,10 +17,12 @@ const css = fs.readFileSync(path.join(dir, cssRef), 'utf8')
 const fontsHref = html.match(/href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1]
 if (!fontsHref) throw new Error('Fonts link not found in dist-preview/index.html')
 
+const bgm = fs.readFileSync('scripts/bgm-preview.mp3').toString('base64')
 const out = `<title>Aaditya Patel</title>
 <link rel="stylesheet" href="${fontsHref}">
 <style>${css}</style>
 <div id="root"></div>
+<script>window.__BGM="data:audio/mpeg;base64,${bgm}"</script>
 <script type="module">${js}</script>
 `
 fs.writeFileSync(path.join(dir, 'preview.html'), out)

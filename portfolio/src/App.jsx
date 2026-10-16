@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SCREENS } from './content/screens.js'
-import { play, unlock } from './lib/sound.js'
+import { play, unlock, setLevel } from './lib/sound.js'
 import Hub from './components/Hub.jsx'
 import About from './components/About.jsx'
 import Projects from './components/Projects.jsx'
@@ -36,14 +36,29 @@ export default function App() {
   const [route, setRoute] = useState(parseHash)
   const [sel, setSel] = useState(-1) // -1: nothing picked
   const [ghost, setGhost] = useState(null) // the view we just left, kept briefly for the burst
-  const [soundOn, setSoundOn] = useState(() => {
+  // 0 is muted, 1 low (the default), 2 medium, 3 high. The choice is remembered.
+  const [level, setLevelState] = useState(() => {
     try {
-      return localStorage.getItem('sound') === 'on'
+      const v = Number(localStorage.getItem('level'))
+      return v >= 0 && v <= 3 && localStorage.getItem('level') !== null ? v : 1
     } catch (e) {
-      return false
+      return 1
     }
   })
+  const lastLevel = useRef(level || 1)
+  const choose = useCallback((v) => {
+    setLevelState(v)
+    if (v > 0) lastLevel.current = v
+    setLevel(v)
+    try {
+      localStorage.setItem('level', String(v))
+    } catch (e) {
+      /* storage is optional */
+    }
+  }, [])
+  // Start the music right away if the browser allows it; otherwise on the first click, tap or key press.
   useEffect(() => {
+    setLevel(level)
     const go = () => unlock()
     window.addEventListener('pointerdown', go, { once: true })
     window.addEventListener('keydown', go, { once: true })
@@ -51,6 +66,7 @@ export default function App() {
       window.removeEventListener('pointerdown', go)
       window.removeEventListener('keydown', go)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const timers = useRef([])
   const routeRef = useRef(route)
@@ -59,9 +75,9 @@ export default function App() {
 
   const sfx = useCallback(
     (kind) => {
-      if (soundOn) play(kind)
+      play(kind)
     },
-    [soundOn],
+    [],
   )
 
   // Opening a screen bursts it out of the character; going back pulls it back in.
@@ -162,23 +178,35 @@ export default function App() {
       {hubVisible && <Hub sel={sel} setSel={setSel} open={open} sfx={sfx} />}
       {view && <div className={`layer ${phase}`}>{view}</div>}
       {ghost && <div key={ghost.id} className="ring" aria-hidden="true" />}
-      <button
-        type="button"
-        className="sound"
-        aria-pressed={soundOn}
-        onClick={() => {
-          const next = !soundOn
-          setSoundOn(next)
-          try {
-            localStorage.setItem('sound', next ? 'on' : 'off')
-          } catch (e) {
-            /* storage is optional */
-          }
-          if (next) play('pick')
-        }}
-      >
-        Sound {soundOn ? 'on' : 'off'}
-      </button>
+      <div className="sound" role="group" aria-label="Sound">
+        <button
+          type="button"
+          className="snd-mute"
+          aria-pressed={level === 0}
+          onClick={() => {
+            choose(level === 0 ? lastLevel.current : 0)
+            if (level === 0) play('pick')
+          }}
+        >
+          {level === 0 ? 'Muted' : 'Mute'}
+        </button>
+        <span className="snd-bars">
+          {[1, 2, 3].map((n) => (
+            <button
+              key={n}
+              type="button"
+              className="snd-bar"
+              aria-label={`Volume ${n} of 3`}
+              aria-pressed={level >= n}
+              style={{ '--h': `${6 + n * 5}px` }}
+              onClick={() => {
+                choose(n)
+                play('pick')
+              }}
+            />
+          ))}
+        </span>
+      </div>
     </div>
   )
 }
