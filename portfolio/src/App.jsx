@@ -38,9 +38,9 @@ export default function App() {
   const [ghost, setGhost] = useState(null) // the view we just left, kept briefly for the burst
   const [soundOn, setSoundOn] = useState(() => {
     try {
-      return localStorage.getItem('sound') !== 'off'
+      return localStorage.getItem('sound') === 'on'
     } catch (e) {
-      return true
+      return false
     }
   })
   useEffect(() => {

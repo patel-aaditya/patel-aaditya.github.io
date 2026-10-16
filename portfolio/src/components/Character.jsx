@@ -32,9 +32,6 @@ export default function Character() {
   return (
     <svg className="character" viewBox="0 0 600 820" aria-hidden="true" focusable="false">
       <defs>
-        <pattern id="ch-dots" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
-          <circle cx="4.5" cy="4.5" r="2.3" fill={INK} />
-        </pattern>
         <g id="ch-sil">
           <polygon points={BODY} />
           <polygon points={NECK} />
@@ -62,7 +59,6 @@ export default function Character() {
 
       {/* jacket: blue panel with halftone, shoulder highlights */}
       <polygon points="58,700 128,600 214,522 242,566 172,646 104,770" fill={BLUE} />
-      <polygon points="58,700 128,600 214,522 242,566 172,646 104,770" fill="url(#ch-dots)" opacity="0.55" />
       <polygon points="128,562 214,512 226,522 138,576" fill="#fff" />
       <polygon points="384,500 472,550 462,562 380,514" fill="#fff" />
       <polygon points="470,620 520,690 500,760 448,700" fill={BLUE} />
@@ -91,15 +87,12 @@ export default function Character() {
       <polygon points="168,474 194,398 270,456 270,526" fill={INK} />
       <polygon points="444,466 420,388 350,438 346,522" fill={INK} />
       <polygon points="204,424 258,462 262,504 216,476" fill={BLUE} />
-      <polygon points="204,424 258,462 262,504 216,476" fill="url(#ch-dots)" opacity="0.5" />
       <polygon points="410,414 360,446 354,500 400,470" fill={BLUE} />
-      <polygon points="410,414 360,446 354,500 400,470" fill="url(#ch-dots)" opacity="0.5" />
       <path d="M168 474 L194 398 L270 456" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M444 466 L420 388 L350 438" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
 
       {/* hard shadow plane across the lower left of the coat, with halftone edge, plus rim lights */}
       <polygon points="14,820 44,660 150,700 230,780 250,820" fill={INK} />
-      <polygon points="44,660 150,700 230,780 250,820 214,820 138,730 40,700" fill="url(#ch-dots)" opacity="0.6" />
       <path d="M44 640 L128 556 L215 505" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M385 495 L472 545 L548 636" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
 
@@ -110,10 +103,8 @@ export default function Character() {
         {/* light blue shade down the near cheek, blue halftone on the far side */}
         <polygon points="204,330 232,398 266,408 240,352" fill={BLUE} opacity="0.25" />
         <polygon points="338,244 410,244 414,326 394,398 348,442 332,450 350,396 338,336 350,290" fill={BLUE} />
-        <polygon points="338,244 410,244 414,326 394,398 348,442 332,450 350,396 338,336 350,290" fill="url(#ch-dots)" opacity="0.5" />
         {/* hard shadow under the fringe */}
         <polygon points="212,292 262,262 350,250 410,262 410,284 350,270 262,284 216,310" fill={INK} />
-        <polygon points="216,310 262,284 350,270 410,284 410,296 350,284 262,298 220,320" fill="url(#ch-dots)" opacity="0.85" />
 
         {/* brows */}
         <polygon points="214,288 262,286 300,300 298,308 262,296 216,298" fill={INK} />
